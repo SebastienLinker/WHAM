@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
 
-from lib.utils.data_utils import make_collate_fn
+from ..utils.data_utils import make_collate_fn
 from ._dataset_eval import EvalDataset
 
 import torch

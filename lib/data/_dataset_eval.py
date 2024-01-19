@@ -8,10 +8,10 @@ import joblib
 import numpy as np
 
 from configs import constants as _C
-import lib.utils.data_utils as d_utils
-from lib.utils import transforms
-from lib.utils.kp_utils import root_centering
-from lib.data._dataset import BaseDataset
+from .. import utils as d_utils
+from ..utils import transforms
+from ..utils.kp_utils import root_centering
+from ._dataset import BaseDataset
 
 FPS = 30
 class EvalDataset(BaseDataset):

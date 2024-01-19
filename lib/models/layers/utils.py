@@ -1,5 +1,5 @@
 import torch
-from lib.utils import transforms
+from ...utils import transforms
 
 
 

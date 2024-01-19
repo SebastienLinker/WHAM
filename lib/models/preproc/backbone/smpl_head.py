@@ -5,7 +5,7 @@ import numpy as np
 import einops
 
 from configs import constants as _C
-from lib.utils.transforms import axis_angle_to_matrix
+from ....utils.transforms import axis_angle_to_matrix
 from .pose_transformer import TransformerDecoder
 
 def rot6d_to_rotmat(x: torch.Tensor) -> torch.Tensor:

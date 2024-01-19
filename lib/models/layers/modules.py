@@ -7,7 +7,7 @@ import numpy as np
 from torch import nn
 from configs import constants as _C
 from .utils import rollout_global_motion
-from lib.utils.transforms import axis_angle_to_matrix
+from ...utils.transforms import axis_angle_to_matrix
 
 
 class Regressor(nn.Module):

@@ -6,7 +6,7 @@ import os, sys
 
 import torch
 import numpy as np
-from lib.utils import transforms
+from ..utils import transforms
 
 from smplx import SMPL as _SMPL
 from smplx.utils import SMPLOutput as ModelOutput

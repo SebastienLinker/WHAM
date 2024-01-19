@@ -1,8 +1,9 @@
 import torch
 import random
 import numpy as np
+import scipy.signal as signal
 
-from lib.utils.imutils import transform_keypoints
+from ..utils.imutils import transform_keypoints
 
 class Normalizer:
     def __init__(self, cfg):
@@ -64,7 +65,6 @@ def normalize_keypoints_to_image(x, res):
 def compute_bbox_from_keypoints(X, do_augment=False, mask=None):
     def smooth_bbox(bb):
         # Smooth bounding box detection
-        import scipy.signal as signal
         smoothed = np.array([signal.medfilt(param, int(30 / 2)) for param in bb])
         return smoothed
     

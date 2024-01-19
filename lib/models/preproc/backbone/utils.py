@@ -2,10 +2,6 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
 
-import os
-import os.path as osp
-from collections import OrderedDict
-
 import cv2
 import numpy as np
 from skimage.filters import gaussian

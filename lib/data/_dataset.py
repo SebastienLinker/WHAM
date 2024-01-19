@@ -8,7 +8,7 @@ from skimage.util.shape import view_as_windows
 
 from configs import constants as _C
 from .normalizer import Normalizer
-from lib.utils.imutils import transform
+from ..utils.imutils import transform
 
 class BaseDataset(torch.utils.data.Dataset):
     def __init__(self, cfg, training=True):

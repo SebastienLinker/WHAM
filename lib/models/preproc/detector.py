@@ -15,7 +15,6 @@ from mmpose.apis import (
     inference_top_down_pose_model,
     init_pose_model,
     get_track_id,
-    vis_pose_result,
 )
 
 ROOT_DIR = osp.abspath(f"{__file__}/../../../../")

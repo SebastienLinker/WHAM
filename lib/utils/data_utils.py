@@ -5,7 +5,7 @@ from __future__ import division
 import torch
 import numpy as np
 
-from lib.utils import transforms
+from . import transforms
 
 
 def make_collate_fn():

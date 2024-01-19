@@ -7,7 +7,7 @@ import imageio
 import numpy as np
 from progress.bar import Bar
 
-from lib.vis.renderer import Renderer, get_global_cameras
+from .renderer import Renderer, get_global_cameras
 
 def run_vis_on_demo(cfg, video, results, output_pth, smpl, vis_global=True):
     # to torch tensor

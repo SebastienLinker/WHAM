@@ -11,9 +11,9 @@ from multiprocessing import Process, Queue
 from dpvo.utils import Timer
 from dpvo.dpvo import DPVO
 from dpvo.config import cfg
-from dpvo.stream import image_stream, video_stream
+from dpvo.stream import video_stream
 
-ROOT_DIR = osp.abspath(f"{__file__}/../../../../")
+ROOT_DIR = osp.abspath(f".")
 DPVO_DIR = osp.join(ROOT_DIR, "third-party/DPVO")
 
 

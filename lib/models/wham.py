@@ -6,8 +6,8 @@ import torch
 from torch import nn
 
 from configs import constants as _C
-from lib.utils import transforms
-from lib.models.layers import (MotionEncoder, MotionDecoder, TrajectoryDecoder, TrajectoryRefiner, Integrator, 
+from ..utils import transforms
+from .layers import (MotionEncoder, MotionDecoder, TrajectoryDecoder, TrajectoryRefiner, Integrator, 
                                rollout_global_motion, compute_camera_pose, reset_root_velocity, compute_camera_motion)
 
 

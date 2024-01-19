@@ -11,11 +11,10 @@ import scipy.signal as signal
 from progress.bar import Bar
 from scipy.ndimage.filters import gaussian_filter1d
 
-from configs import constants as _C
 from .backbone.hmr2 import hmr2
 from .backbone.utils import process_image
 
-ROOT_DIR = osp.abspath(f"{__file__}/../../../../")
+ROOT_DIR = osp.abspath(f".")
 
 class FeatureExtractor(object):
     def __init__(self, device, max_batch_size=64):
