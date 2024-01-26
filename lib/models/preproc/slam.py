@@ -13,20 +13,17 @@ from dpvo.dpvo import DPVO
 from dpvo.config import cfg
 from dpvo.stream import video_stream
 
-ROOT_DIR = osp.abspath(f".")
-DPVO_DIR = osp.join(ROOT_DIR, "third-party/DPVO")
-
 
 class SLAMModel(object):
-    def __init__(self, video, output_pth, width, height, calib=None, stride=1, skip=0, buffer=2048):
+    def __init__(self, cfg, video, output_pth, width, height, calib=None, stride=1, skip=0, buffer=2048):
         
         if calib == None or not osp.exists(calib): 
             calib = osp.join(output_pth, 'calib.txt')
         if not osp.exists(calib):
             self.estimate_intrinsics(width, height, calib)
         
-        self.dpvo_cfg = osp.join(DPVO_DIR, 'config/default.yaml')
-        self.dpvo_ckpt = osp.join(ROOT_DIR, 'checkpoints', 'dpvo.pth')
+        self.dpvo_cfg = cfg.CFG
+        self.dpvo_ckpt = cfg.CKPT
         
         self.buffer = buffer
         self.times = []

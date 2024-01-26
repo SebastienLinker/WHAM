@@ -7,7 +7,6 @@ import torch
 import joblib
 import numpy as np
 
-from configs import constants as _C
 from .. import utils as d_utils
 from ..utils import transforms
 from ..utils.kp_utils import root_centering
@@ -20,7 +19,7 @@ class EvalDataset(BaseDataset):
         
         self.data = data
         
-        parsed_data_path = os.path.join(_C.PATHS.PARSED_DATA, f'{data}_{split}_{backbone}.pth')
+        parsed_data_path = os.path.join(cfg.PATHS.PARSED_DATA, f'{data}_{split}_{backbone}.pth')
         self.labels = joblib.load(parsed_data_path)
 
     def __getitem__(self, index):

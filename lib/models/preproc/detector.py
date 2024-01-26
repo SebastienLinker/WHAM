@@ -17,23 +17,17 @@ from mmpose.apis import (
     get_track_id,
 )
 
-ROOT_DIR = osp.abspath(f"{__file__}/../../../../")
-VIT_DIR = osp.join(ROOT_DIR, "third-party/ViTPose")
-
-BBOX_CONF = 0.5
-TRACKING_THR = 0.1
-MINIMUM_FRMAES = 30
-
 class DetectionModel(object):
-    def __init__(self, device):
+    def __init__(self, device, mmpose_cfg):
         
         # ViTPose
-        pose_model_cfg = osp.join(VIT_DIR, 'configs/body/2d_kpt_sview_rgb_img/topdown_heatmap/coco/ViTPose_huge_coco_256x192.py')
-        pose_model_ckpt = osp.join(ROOT_DIR, 'checkpoints', 'vitpose-h-multi-coco.pth')
+        self.mmpose_cfg = mmpose_cfg
+        pose_model_cfg = mmpose_cfg.POSE_CONFIG
+        pose_model_ckpt = mmpose_cfg.POSE_CHECKPOINT
         self.pose_model = init_pose_model(pose_model_cfg, pose_model_ckpt, device=device.lower())
         
         # YOLO
-        bbox_model_ckpt = osp.join(ROOT_DIR, 'checkpoints', 'yolov8x.pt')
+        bbox_model_ckpt = mmpose_cfg.DET_CHECKPOINT
         self.bbox_model = YOLO(bbox_model_ckpt)
         
         self.device = device
@@ -59,7 +53,7 @@ class DetectionModel(object):
         
         # bbox detection
         bboxes = self.bbox_model.predict(
-            img, device=self.device, classes=0, conf=BBOX_CONF, save=False, verbose=False)[0].boxes.xyxy.detach().cpu().numpy()
+            img, device=self.device, classes=0, conf=self.mmpose_cfg.BBOX_CONF, save=False, verbose=False)[0].boxes.xyxy.detach().cpu().numpy()
         bboxes = [{'bbox': bbox} for bbox in bboxes]
         
         # keypoints detection
@@ -77,7 +71,7 @@ class DetectionModel(object):
             self.pose_results_last,
             self.next_id,
             use_oks=False,
-            tracking_thr=TRACKING_THR,
+            tracking_thr=self.mmpose_cfg.TRACKING_THR,
             use_one_euro=True,
             fps=fps)
         
@@ -112,7 +106,7 @@ class DetectionModel(object):
         # Smooth bounding box detection
         ids = list(output.keys())
         for _id in ids:
-            if len(output[_id]['bbox']) < MINIMUM_FRMAES:
+            if len(output[_id]['bbox']) < self.mmpose_cfg.MINIMUM_FRMAES:
                 del output[_id]
                 continue
             

@@ -5,7 +5,6 @@ from __future__ import division
 import torch
 from torch import nn
 
-from configs import constants as _C
 from ..utils import transforms
 from .layers import (MotionEncoder, MotionDecoder, TrajectoryDecoder, TrajectoryRefiner, Integrator, 
                                rollout_global_motion, compute_camera_pose, reset_root_velocity, compute_camera_motion)
@@ -14,16 +13,18 @@ from .layers import (MotionEncoder, MotionDecoder, TrajectoryDecoder, Trajectory
 class Network(nn.Module):
     def __init__(self, 
                  smpl,
+                 main_joints,
                  pose_dr=0.1,
                  d_embed=512,
                  n_layers=3,
                  d_feat=2048,
                  rnn_type='LSTM',
+                 num_joints=17,
                  **kwargs
                  ):
         super().__init__()
         
-        n_joints = _C.KEYPOINTS.NUM_JOINTS
+        n_joints = num_joints
         self.smpl = smpl
         in_dim = n_joints * 2 + 3
         d_context = d_embed + n_joints * 3
@@ -49,7 +50,8 @@ class Network(nn.Module):
         # Module 4. Motion Decoder
         self.motion_decoder = MotionDecoder(d_embed=d_context,
                                             rnn_type=rnn_type,
-                                            n_layers=n_layers)
+                                            n_layers=n_layers,
+                                            main_joints=main_joints)
         
         # Module 5. Trajectory Refiner
         self.trajectory_refiner = TrajectoryRefiner(d_embed=d_context,

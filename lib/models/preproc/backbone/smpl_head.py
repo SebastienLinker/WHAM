@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 import einops
 
-from configs import constants as _C
+from .... import constants as _C
 from ....utils.transforms import axis_angle_to_matrix
 from .pose_transformer import TransformerDecoder
 
@@ -51,9 +51,8 @@ class SMPLTransformerDecoderHead(nn.Module):
         transformer_args_from_cfg = dict(
             depth=6, heads=8, mlp_dim=1024, dim_head=64, dropout=0.0, emb_dropout=0.0, norm='layer', context_dim=1280
         )
-        transformer_args = (transformer_args | transformer_args_from_cfg)
         self.transformer = TransformerDecoder(
-            **transformer_args
+            **transformer_args, **transformer_args_from_cfg
         )
         dim=transformer_args['dim']
         self.decpose = nn.Linear(dim, npose)

@@ -12,7 +12,7 @@ from smplx import SMPL as _SMPL
 from smplx.utils import SMPLOutput as ModelOutput
 from smplx.lbs import vertices2joints
 
-from configs import constants as _C
+from .. import constants as _C
 
 class SMPL(_SMPL):
     """ Extension of the official SMPL implementation to support more joints """

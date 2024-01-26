@@ -5,7 +5,6 @@ from __future__ import division
 import torch
 import numpy as np
 from torch import nn
-from configs import constants as _C
 from .utils import rollout_global_motion
 from ...utils.transforms import axis_angle_to_matrix
 
@@ -178,13 +177,15 @@ class MotionDecoder(nn.Module):
     def __init__(self, 
                  d_embed,
                  rnn_type,
-                 n_layers):
+                 n_layers,
+                 main_joints):
         super().__init__()
         
         self.n_pose = 24
         
         # SMPL pose initialization
-        self.neural_init = NeuralInitialization(len(_C.BMODEL.MAIN_JOINTS) * 6, d_embed, rnn_type, n_layers)
+        self.main_joints = main_joints
+        self.neural_init = NeuralInitialization(len(main_joints) * 6, d_embed, rnn_type, n_layers)
         
         # 3d keypoints regressor
         self.regressor = Regressor(
@@ -195,7 +196,7 @@ class MotionDecoder(nn.Module):
         """
         b, f = x.shape[:2]
         
-        h0 = self.neural_init(init[:, :, _C.BMODEL.MAIN_JOINTS].reshape(b, 1, -1))
+        h0 = self.neural_init(init[:, :, self.main_joints].reshape(b, 1, -1))
         
         # Recursive prediction of SMPL parameters
         pred_pose_list = [init.reshape(b, 1, -1)]

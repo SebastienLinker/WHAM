@@ -6,14 +6,13 @@ import torch
 import numpy as np
 from skimage.util.shape import view_as_windows
 
-from configs import constants as _C
 from .normalizer import Normalizer
 from ..utils.imutils import transform
 
 class BaseDataset(torch.utils.data.Dataset):
     def __init__(self, cfg, training=True):
         super(BaseDataset, self).__init__()
-        self.n_joints = _C.KEYPOINTS.NUM_JOINTS
+        self.n_joints = cfg.KEYPOINTS.NUM_JOINTS
         self.epoch = 0
         self.n_frames = cfg.DATASET.SEQLEN + 1
         self.training = training

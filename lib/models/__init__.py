@@ -3,8 +3,9 @@ import yaml
 import torch
 from loguru import logger
 
-from configs import constants as _C
+from .. import constants as _C
 from .smpl import SMPL
+from .wham import Network
 
 
 def build_body_model(device, batch_size=1, gender='neutral', **kwargs):
@@ -19,11 +20,13 @@ def build_body_model(device, batch_size=1, gender='neutral', **kwargs):
 
 
 def build_network(cfg, smpl):
-    from .wham import Network
     
     with open(cfg.MODEL_CONFIG, 'r') as f:
         model_config = yaml.safe_load(f)
     model_config.update({'d_feat': _C.IMG_FEAT_DIM[cfg.MODEL.BACKBONE]})
+    model_config.update({'main_joints': _C.BMODEL.MAIN_JOINTS})
+    model_config.update({'num_joints': _C.KEYPOINTS.NUM_JOINTS})
+    
     
     network = Network(smpl, **model_config).to(cfg.DEVICE)
     
