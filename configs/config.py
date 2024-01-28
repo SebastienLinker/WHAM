@@ -63,7 +63,9 @@ cfg.MMPOSE_CFG.MINIMUM_FRMAES = 30
 
 cfg.DPVO = CN()
 cfg.DPVO.CFG = ''
-cfg.DPVO.CKPT=''
+cfg.DPVO.CKPT = ''
+
+cfg.FEATURES_EXTR_CKPT = ''
 
 def get_cfg_defaults():
     """Get a yacs CfgNode object with default values for my_project."""

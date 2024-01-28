@@ -24,3 +24,5 @@ MMPOSE_CFG:
 DPVO:
   CFG: 'configs/DPVO/default.yaml'
   CKPT: 'checkpoints/dpvo.pth'
+
+FEATURES_EXTR_CKPT: 'checkpoints/hmr2a.ckpt'

@@ -51,7 +51,7 @@ def run(cfg,
             osp.exists(osp.join(output_pth, 'slam_results.pth'))):
         
         detector = DetectionModel(cfg.DEVICE.lower())
-        extractor = FeatureExtractor(cfg.DEVICE.lower())
+        extractor = FeatureExtractor(cfg.FEATURES_EXTR_CKPT, cfg.DEVICE.lower())
         
         if run_global: slam = SLAMModel(video, output_pth, width, height, calib)
         else: slam = None
