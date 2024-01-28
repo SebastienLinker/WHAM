@@ -25,13 +25,9 @@ RUN pip install mmdet==3.1.0 mmpose==1.3.0 mmengine==0.8.3 mmpretrain==1.2.0
 RUN pip install https://data.pyg.org/whl/torch-2.0.0%2Bcu117/torch_scatter-2.1.2%2Bpt20cu117-cp310-cp310-linux_x86_64.whl
 RUN git clone https://github.com/princeton-vl/DPVO.git && cd DPVO && git checkout 5833835 && wget https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.zip && unzip eigen-3.4.0.zip -d thirdparty && rm -rf eigen-3.4.0.zip && pip install -e .
 
-RUN mkdir -p /models/checkpoints/ && pip install gdown==4.6.0 &&\
-     gdown "https://drive.google.com/uc?id=1J6l8teyZrL0zFzHhzkC7efRhU0ZJ5G9Y&export=download&confirm=t" -O '/models/checkpoints/hmr2a.ckpt' &&\
-     gdown "https://drive.google.com/uc?id=1kXTV4EYb-BI3H7J-bkR3Bc4gT9zfnHGT&export=download&confirm=t" -O '/models/checkpoints/dpvo.pth' &&\
-     gdown "https://drive.google.com/uc?id=19qkI-a6xuwob9_RFNSPWf1yWErwVVlks&export=download&confirm=t" -O '/models/checkpoints/wham_vit_bedlam_w_3dpw.pth.tar'
 
 COPY ./ /WHAM/
 RUN pip install . && pip install -r requirements.txt
-RUN ln -s /models/checkpoints/hmr2a.ckpt /WHAM/checkpoints/hmr2a.ckpt && ln -s /models/checkpoints/dpvo.pth /WHAM/checkpoints/dpvo.pth && ln -s /models/checkpoints/wham_vit_bedlam_w_3dpw.pth.tar /WHAM/checkpoints/wham_vit_bedlam_w_3dpw.pth.tar
 
 WORKDIR /WHAM/
+RUN sh ./fetch_demo_data.sh
