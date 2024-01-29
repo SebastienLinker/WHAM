@@ -27,7 +27,7 @@ RUN git clone https://github.com/princeton-vl/DPVO.git && cd DPVO && git checkou
 
 
 COPY ./ /WHAM/
-RUN pip install . && pip install -r requirements.txt
-
 WORKDIR /WHAM/
-RUN sh ./fetch_demo_data.sh
+
+RUN pip install -e . && pip install -r requirements.txt
+RUN bash ./fetch_demo_data.sh
