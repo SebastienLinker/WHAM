@@ -14,15 +14,12 @@ from scipy.ndimage.filters import gaussian_filter1d
 from .backbone.hmr2 import hmr2
 from .backbone.utils import process_image
 
-ROOT_DIR = osp.abspath(f".")
-
 class FeatureExtractor(object):
-    def __init__(self, device, max_batch_size=64):
+    def __init__(self, ckpt, device, max_batch_size=64):
         
         self.device = device
         self.max_batch_size = max_batch_size
         
-        ckpt = osp.join(ROOT_DIR, 'checkpoints', 'hmr2a.ckpt')
         self.model = hmr2(ckpt).to(device).eval()
         
     def run(self, video, tracking_results, patch_h=256, patch_w=256):
