@@ -16,21 +16,23 @@ from mmpose.apis import init_model, inference_topdown, _track_by_iou
 
 def get_track_id(results, results_last, next_id, min_keypoints=3, tracking_thr=0.3):
     for result in results:
-        track_id, results_last, match_result = _track_by_iou(result, results_last,
-                                                      tracking_thr)
-        if track_id == -1:
-            if np.count_nonzero(result.pred_instances.keypoints[0, :, 1]) > min_keypoints:
-                result.track_id = next_id
-                next_id += 1
-            else:
-                # If the number of keypoints detected is small,
-                # delete that person instance.
-                result.pred_instances.keypoints[0, :, :] = -10
-                result.pred_instances.bboxes *= 0
-                result.track_id = -1
+        if 'track_id' in result.pred_instances and (result.pred_instances.track_id[0] is not None):
+            result.track_id = result.pred_instances.track_id[0] - 1  # MMPose begins at 1, WHAM begins at 0
         else:
-            result.track_id = track_id
-        del match_result
+            track_id, results_last, match_result = _track_by_iou(result, results_last,
+                                                        tracking_thr)
+            if track_id == -1:
+                if np.count_nonzero(result.pred_instances.keypoints[0, :, 1]) > min_keypoints:
+                    result.track_id = next_id
+                    next_id += 1
+                else:
+                    # If the number of keypoints detected is small,
+                    # delete that person instance.
+                    result.pred_instances.keypoints[0, :, :] = -10
+                    result.pred_instances.bboxes *= 0
+                    result.track_id = -1
+            else:
+                result.track_id = track_id
 
     return results, next_id
 
