@@ -29,3 +29,5 @@ COPY ./ /WHAM/
 WORKDIR /WHAM/
 RUN pip install -e . && pip install -r requirements.txt
 ENV WHAM_ROOT='/WHAM/'
+
+RUN bash ./fetch_demo_data.sh
